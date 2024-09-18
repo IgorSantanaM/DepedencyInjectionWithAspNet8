@@ -22,9 +22,13 @@ global using Microsoft.EntityFrameworkCore;
 
 using Microsoft.Data.Sqlite;
 using TennisBookings.BackgroundService;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;	
 
 var builder = WebApplication.CreateBuilder(args);
+
+var services = builder.Services; // Services == IServiceCollection
+
+services.AddTransient<IWeatherForecaster, RandomWeatherForecaster>(); // register a services so the framework know the DI
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages(options =>

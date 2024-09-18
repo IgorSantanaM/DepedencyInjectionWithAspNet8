@@ -1,24 +1,51 @@
-namespace TennisBookings.Tests.Pages;
+using Moq;
 
-public class IndexTests
+namespace TennisBookings.Tests.Pages
 {
-	[Fact]
-	public async Task ReturnsExpectedViewModel_WhenWeatherIsSun()
+	public class IndexTests
 	{
-		var sut = new IndexModel();
+		[Fact]
+		public async Task ReturnsExpectedViewModel_WhenWeatherIsSun()
+		{
+			// Arrange
+			var mockWeatherForecaster = new Mock<IWeatherForecaster>();
+			mockWeatherForecaster
+				.Setup(x => x.GetCurrentWeatherAsync(It.IsAny<string>()))
+				.ReturnsAsync(new WeatherResult
+				{
+					City = city,
+					Weather = new WeatherCondition { Summary = "Sun" }
+				});
 
-		await sut.OnGet();
+			var sut = new IndexModel(mockWeatherForecaster.Object, NullLogger<IndexModel>.Instance);
 
-		Assert.Contains("It's sunny right now.", sut.WeatherDescription);
-	}
+			// Act
+			await sut.OnGet();
 
-	[Fact]
-	public async Task ReturnsExpectedViewModel_WhenWeatherIsRain()
-	{
-		var sut = new IndexModel();
+			// Assert
+			Assert.Contains("It's sunny right now.", sut.WeatherDescription);
+		}
 
-		await sut.OnGet();
+		[Fact]
+		public async Task ReturnsExpectedViewModel_WhenWeatherIsRain()
+		{
+			// Arrange
+			var mockWeatherForecaster = new Mock<IWeatherForecaster>();
+			mockWeatherForecaster
+				.Setup(x => x.GetCurrentWeatherAsync(It.IsAny<string>()))
+				.ReturnsAsync(new WeatherResult
+				{
+					City = "TestCity",
+					Weather = new WeatherCondition { Summary = "Rain" }
+				});
 
-		Assert.Contains("We're sorry but it's raining here.", sut.WeatherDescription);
+			var sut = new IndexModel(mockWeatherForecaster.Object, NullLogger<IndexModel>.Instance);
+
+			// Act
+			await sut.OnGet();
+
+			// Assert
+			Assert.Contains("We're sorry but it's raining here.", sut.WeatherDescription);
+		}
 	}
 }

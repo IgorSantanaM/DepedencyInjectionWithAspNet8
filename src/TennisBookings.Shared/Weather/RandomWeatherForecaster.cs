@@ -1,5 +1,5 @@
 namespace TennisBookings.Shared.Weather;
-public class RandomWeatherForecaster
+public class RandomWeatherForecaster : IWeatherForecaster
 {
 	private readonly Random _random = new();
 

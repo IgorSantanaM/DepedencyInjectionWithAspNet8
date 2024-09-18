@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 
 namespace TennisBookings.Shared.Weather
 {
-	public class AmazingWeatherForecaster
+	public class AmazingWeatherForecaster : IWeatherForecaster
 	{
-		public Task<WeatherResult> GetWeatherResultAsync(string city) =>
-		Task.FromResult(new WeatherResult()
+		public Task<WeatherResult> GetCurrentWeatherAsync(string city)
 		{
-			City = city,
-			Weather = new WeatherCondition()
+			return Task.FromResult(new WeatherResult()
 			{
-				Summary = "Sun"
-			}
-		});
+				City = city,
+				Weather = new WeatherCondition()
+				{
+					Summary = "Sun"
+				}
+			});
+		}
+		
 	}
 }

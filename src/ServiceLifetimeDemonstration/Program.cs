@@ -1,9 +1,18 @@
 using ServiceLifetimeDemonstration;
 
 var builder = WebApplication.CreateBuilder(args);
+// builder.Host.UseDefaultServiceProvider(options => options.ValidateScopes = false);
 
+var services = builder.Services;
 // Add services to the container.
-builder.Services.AddRazorPages();
+services.AddRazorPages();
+
+// services.AddTransient<IGuidService, GuidService>(); creates a new instance of the service every time is requested
+//services.AddSingleton<IGuidService, GuidService>(); creates only one instance for the Container lifetime meaning that it reutilizes the response
+
+services.AddSingleton<IGuidService, GuidService>(); // creates a new instance when a new
+services.AddSingleton<IGuidTrimmer, GuidTrimmer>();
+services.AddScoped<DisposableServices>();
 
 var app = builder.Build();
 

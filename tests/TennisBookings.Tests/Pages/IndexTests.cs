@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Options;
 using Moq;
+using TennisBookings.Configuration;
 
 namespace TennisBookings.Tests.Pages
 {
@@ -13,11 +15,11 @@ namespace TennisBookings.Tests.Pages
 				.Setup(x => x.GetCurrentWeatherAsync(It.IsAny<string>()))
 				.ReturnsAsync(new WeatherResult
 				{
-					City = city,
+					City = "TestCity",
 					Weather = new WeatherCondition { Summary = "Sun" }
 				});
 
-			var sut = new IndexModel(mockWeatherForecaster.Object, NullLogger<IndexModel>.Instance);
+			var sut = new IndexModel(mockWeatherForecaster.Object, NullLogger<IndexModel>.Instance, new EnabledConfig());
 
 			// Act
 			await sut.OnGet();
@@ -39,13 +41,25 @@ namespace TennisBookings.Tests.Pages
 					Weather = new WeatherCondition { Summary = "Rain" }
 				});
 
-			var sut = new IndexModel(mockWeatherForecaster.Object, NullLogger<IndexModel>.Instance);
+			var sut = new IndexModel(mockWeatherForecaster.Object, NullLogger<IndexModel>.Instance, new EnabledConfig());
 
 			// Act
 			await sut.OnGet();
 
 			// Assert
 			Assert.Contains("We're sorry but it's raining here.", sut.WeatherDescription);
+		}
+		private class EnabledConfig : IOptionsSnapshot<FeaturesConfiguration>
+		{
+			public FeaturesConfiguration Value => new FeaturesConfiguration
+			{
+				EnableWeatherForecast = true
+			};
+
+			public FeaturesConfiguration Get(string? name)
+			{
+				throw new NotImplementedException();
+			}
 		}
 	}
 }

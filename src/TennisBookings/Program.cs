@@ -6,19 +6,12 @@ global using TennisBookings.Data;
 global using TennisBookings.Domain;
 global using TennisBookings.Extensions;
 global using TennisBookings.Configuration;
-global using TennisBookings.Caching;
-global using TennisBookings.Shared.Weather;
-global using TennisBookings.Services.Bookings;
-global using TennisBookings.Services.Greetings;
 global using TennisBookings.Shared.Weather;
 global using TennisBookings.Services.Bookings;
 global using TennisBookings.Services.Unavailability;
 global using TennisBookings.Services.Bookings.Rules;
 global using TennisBookings.Services.Notifications;
 global using TennisBookings.Services.Time;
-global using TennisBookings.Services.Staff;
-global using TennisBookings.Services.Courts;
-global using TennisBookings.Services.Security;
 global using TennisBookings.Services.Courts;
 global using Microsoft.EntityFrameworkCore;
 #endregion
@@ -26,7 +19,6 @@ global using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
 using TennisBookings.BackgroundService;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;	
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);

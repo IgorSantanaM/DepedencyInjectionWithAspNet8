@@ -6,28 +6,26 @@ using TennisBookings.Areas.Admin.Models;
 namespace TennisBookings.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Route("Admin/[controller]")]
+[Route("Admin/[controller]")]	
 [Authorize(Roles = "Admin")]
 public class CourtsController : Controller
 {
 	private readonly ICourtBookingService _courtBookingService;
 	private readonly IUtcTimeService _utcTimeService;
-	private readonly ICourtMaintenanceService _courtMaintenanceService;
 
 	public CourtsController(
 		ICourtBookingService courtBookingService,
-		IUtcTimeService utcTimeService,
-		ICourtMaintenanceService courtMaintenanceService)
+		IUtcTimeService utcTimeService)
 	{
 		_courtBookingService = courtBookingService;
 		_utcTimeService = utcTimeService;
-		_courtMaintenanceService = courtMaintenanceService;
 	}
 
 	[Route("Maintenance/Upcoming")]
-	public async Task<ActionResult> UpcomingMaintenance()
+	public async Task<ActionResult> UpcomingMaintenance(
+		[FromServices] ICourtMaintenanceService courtMaintenanceService)
 	{
-		var maintenanceSchedules = await _courtMaintenanceService.GetUpcomingMaintenance();
+		var maintenanceSchedules = await courtMaintenanceService.GetUpcomingMaintenance();
 
 		var maintenanceViewModels = maintenanceSchedules.Select(x => new CourtMaintenanceViewModel
 		{

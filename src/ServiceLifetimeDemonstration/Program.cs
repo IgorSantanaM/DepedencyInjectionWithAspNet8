@@ -4,6 +4,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 
+var services =  builder.Services;
+
+services.AddScoped<IGuidTrimmer, GuidTrimmer>();
 
 var app = builder.Build();
 

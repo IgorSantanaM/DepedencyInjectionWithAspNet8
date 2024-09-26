@@ -3,6 +3,8 @@ public class RandomWeatherForecaster : IWeatherForecaster
 {
 	private readonly Random _random = new();
 
+	public string Weather { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
 	public Task<WeatherResult> GetCurrentWeatherAsync(string city)
 	{
 		var condition = _random.Next(1, 4);
@@ -11,7 +13,7 @@ public class RandomWeatherForecaster : IWeatherForecaster
 		{
 			1 => new WeatherResult
 			{
-				City = city,
+				City = city,	
 				Weather = new WeatherCondition
 				{
 					Summary = "Sun",

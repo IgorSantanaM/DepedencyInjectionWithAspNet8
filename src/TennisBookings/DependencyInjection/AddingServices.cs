@@ -25,7 +25,7 @@ namespace TennisBookings.DependencyInjection
 				
 			services.TryAddScoped<IBookingRuleProcessor, BookingRuleProcessor>();
 			services.TryAddSingleton<INotificationService, EmailNotificationService>();
-
+	
 			services.TryAddEnumerable(
 			[
 				ServiceDescriptor.Scoped<IUnavailabilityProvider, ClubClosedUnavailabilityProvider>(),

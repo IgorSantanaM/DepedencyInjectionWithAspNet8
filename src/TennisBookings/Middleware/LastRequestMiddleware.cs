@@ -23,8 +23,7 @@ namespace TennisBookings.Middleware
 				context.User.Identity.IsAuthenticated)
 			{
 				var user = await _userManager
-					.FindByNameAsync(context.User.Identity.Name); // IOBound operation
-
+					.FindByNameAsync(context.User.Identity.Name);
 				if(user is not null)
 				{
 					user.LastRequestUtc = _utcTimeService.CurrentUtcDateTime;

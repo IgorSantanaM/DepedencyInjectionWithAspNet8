@@ -20,6 +20,7 @@ using Microsoft.Data.Sqlite;
 using TennisBookings.BackgroundService;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;	
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using TennisBookings.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,39 +50,13 @@ services.TryAddSingleton<IWeatherForecaster, RandomWeatherForecaster>(); // regi
 //services.Add(serviceDescriptor1);
 #endregion
 
-services.TryAddScoped<ICourtBookingService, CourtBookingService>();
-services.TryAddSingleton<IUtcTimeService, TimeService>();
-
-services.TryAddScoped<IBookingService, BookingService>();
-
-services.TryAddScoped<ICourtService, CourtService>();
-
-services.TryAddScoped<ICourtBookingManager, CourtBookingManager>();
-
-services.AddSingleton<ICourtBookingRule, ClubIsOpenRule>();
-services.AddSingleton<ICourtBookingRule, MaxBookingLengthRule>();
-services.AddSingleton<ICourtBookingRule, MaxPeakTimeBookingLengthRule>();
-services.AddScoped<ICourtBookingRule, MemberBookingsMustNotOverlapRule>();
-services.AddScoped<ICourtBookingRule, MemberCourtBookingsMaxHoursPerDayRule>();
-
-	
 services.Configure<BookingConfiguration>(builder.Configuration.GetSection("CourtBookings"));
-services.TryAddScoped<IBookingRuleProcessor, BookingRuleProcessor>();
-services.TryAddSingleton<INotificationService, EmailNotificationService>();
 
 services.Configure<ClubConfiguration>(builder.Configuration.GetSection("ClubSettings"));
 services.Configure<BookingConfiguration>(builder.Configuration.GetSection("CourtBookings"));
 services.Configure<FeaturesConfiguration>(builder.Configuration.GetSection("Features"));
 
-
-services.TryAddEnumerable(new ServiceDescriptor[]
-{
-	ServiceDescriptor.Scoped<IUnavailabilityProvider, ClubClosedUnavailabilityProvider>(),
-	ServiceDescriptor.Scoped<IUnavailabilityProvider, ClubClosedUnavailabilityProvider>(),
-	ServiceDescriptor.Scoped<IUnavailabilityProvider, UpcomingHoursUnavailabilityProvider>(),
-	ServiceDescriptor.Scoped<IUnavailabilityProvider, OutsideCourtUnavailabilityProvider>(),
-	ServiceDescriptor.Scoped<IUnavailabilityProvider, CourtBookingUnavailabilityProvider>()
-});
+services.AddServices();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages(options =>

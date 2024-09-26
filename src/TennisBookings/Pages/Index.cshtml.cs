@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
+using TennisBookings.Services.Greetings;
+using TennisBookings.Services.Membership;
 
 namespace TennisBookings.Pages
 {
@@ -7,12 +9,23 @@ namespace TennisBookings.Pages
 	{
 		private readonly IWeatherForecaster _weatherForecaster;
 		private readonly ILogger<IndexModel> _logger;
+		private readonly IMembershipAdvert Advert;
+		private readonly IHomePageGreetingService _greetingService;
+		private readonly IBookingConfiguration _bookingCofiguration;
 		private readonly FeaturesConfiguration _config;
 
-		public IndexModel(IWeatherForecaster weatherForecaster, ILogger<IndexModel> logger, IOptionsSnapshot<FeaturesConfiguration> options)
+		public IndexModel(IWeatherForecaster weatherForecaster,
+			ILogger<IndexModel> logger,
+			IOptionsSnapshot<FeaturesConfiguration> options,
+			IMembershipAdvert advert,
+			IHomePageGreetingService greetingService,
+			IBookingConfiguration bookingCofiguration)
 		{
-			_weatherForecaster = weatherForecaster;
+			_weatherForecaster = weatherForecaster;	
 			_logger = logger;
+			Advert = advert;
+			_greetingService = greetingService;
+			_bookingCofiguration = bookingCofiguration;
 			_config = options.Value;
 		}
 		public string WeatherDescription { get; private set; } =

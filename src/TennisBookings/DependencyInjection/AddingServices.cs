@@ -26,14 +26,14 @@ namespace TennisBookings.DependencyInjection
 			services.TryAddScoped<IBookingRuleProcessor, BookingRuleProcessor>();
 			services.TryAddSingleton<INotificationService, EmailNotificationService>();
 
-			services.TryAddEnumerable(new ServiceDescriptor[]
-			{
+			services.TryAddEnumerable(
+			[
 				ServiceDescriptor.Scoped<IUnavailabilityProvider, ClubClosedUnavailabilityProvider>(),
 				ServiceDescriptor.Scoped<IUnavailabilityProvider, ClubClosedUnavailabilityProvider>(),
 				ServiceDescriptor.Scoped<IUnavailabilityProvider, UpcomingHoursUnavailabilityProvider>(),
 				ServiceDescriptor.Scoped<IUnavailabilityProvider, OutsideCourtUnavailabilityProvider>(),
 				ServiceDescriptor.Scoped<IUnavailabilityProvider, CourtBookingUnavailabilityProvider>()
-			});
+			]);
 
 			return services;
 		}

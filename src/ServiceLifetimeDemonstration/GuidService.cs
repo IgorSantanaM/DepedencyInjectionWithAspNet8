@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 namespace ServiceLifetimeDemonstration;
-=======
-	namespace ServiceLifetimeDemonstration;
->>>>>>> refs/remotes/origin/master
 
 public class GuidService : IGuidService
 {

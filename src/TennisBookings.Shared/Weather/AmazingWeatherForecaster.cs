@@ -8,7 +8,6 @@ namespace TennisBookings.Shared.Weather
 {
 	public class AmazingWeatherForecaster : IWeatherForecaster
 	{
-		public string Weather { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
 		public Task<WeatherResult> GetCurrentWeatherAsync(string city)
 		{

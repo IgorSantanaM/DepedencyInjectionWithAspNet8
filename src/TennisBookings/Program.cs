@@ -21,9 +21,21 @@ using TennisBookings.BackgroundService;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;	
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using TennisBookings.DependencyInjection;
+using Autofac.Extensions.DependencyInjection;
+using Autofac;
+using TennisBookings.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+
+builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
+{ 
+	builder.RegisterType<RandomWeatherForecaster>()
+		   .As<IWeatherForecaster>()
+		   .SingleInstance();
+	builder.RegisterDecorator<CachedWeatherForecaster, IWeatherForecaster>();
+ });
 var services = builder.Services; 
 
 services.AddTransient<IWeatherForecaster, RandomWeatherForecaster>(); // register a services so the framework know the DI

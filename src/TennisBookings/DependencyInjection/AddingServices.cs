@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using TennisBookings.Services;
 
 namespace TennisBookings.DependencyInjection
 {
@@ -16,13 +17,22 @@ namespace TennisBookings.DependencyInjection
 
 			services.TryAddScoped<ICourtBookingManager, CourtBookingManager>();
 
-			services.AddSingleton<ICourtBookingRule, ClubIsOpenRule>();
-			services.AddSingleton<ICourtBookingRule, MaxBookingLengthRule>();
-			services.AddSingleton<ICourtBookingRule, MaxPeakTimeBookingLengthRule>();
-			services.AddScoped<ICourtBookingRule, MemberBookingsMustNotOverlapRule>();
-			services.AddScoped<ICourtBookingRule, MemberCourtBookingsMaxHoursPerDayRule>();
+			//services.AddSingleton<ICourtBookingRule, ClubIsOpenRule>();
+			//services.AddSingleton<ICourtBookingRule, MaxBookingLengthRule>();
+			//services.AddSingleton<ICourtBookingRule, MaxPeakTimeBookingLengthRule>();
+			//services.AddScoped<ICourtBookingRule, MemberBookingsMustNotOverlapRule>();
+			//services.AddScoped<ICourtBookingRule, MemberCourtBookingsMaxHoursPerDayRule>();
+
+			services.Scan(scan =>
+				scan.FromAssemblyOf<ICourtBookingRule>()
+					.AddClasses(c => c.AssignableTo<ICourtBookingRule>())
+					.AsImplementedInterfaces()
+					.WithScopedLifetime());
+
 			services.AddScoped<ICourtMaintenanceService, CourtMaintenanceService>();
-				
+
+			//services.Decorate<IWeatherForecaster, CachedWeatherForecaster>();
+
 			services.TryAddScoped<IBookingRuleProcessor, BookingRuleProcessor>();
 			services.TryAddSingleton<INotificationService, EmailNotificationService>();
 	
